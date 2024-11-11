@@ -44,19 +44,14 @@ const login = async (req, res) => {
       where: { email },
       include: { secret: true }
     });
-
    
     if (!matchedUser) {
       return res.status(404).json({ error: "User doesn't exist" });
     }
-
-   
     const hashedPass =  bcrypt.compare(password, matchedUser.secret?.password);
     if (!hashedPass) {
       return res.sendStatus(401);
     }
-
- 
     const accessToken = jwt.sign(
       { user: matchedUser.id },
       process.env.ACCESS_TOKEN_SECRET,

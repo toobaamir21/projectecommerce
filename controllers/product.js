@@ -88,24 +88,20 @@ const getProductById = async (req, res) => {
   };
 
   const updateProduct = async (req, res) => {
-    console.log("Request Body:", req.body);
+    
   
     const { id } = req.params;
   
     try {
-      const data = { ...req.body };
-  
-     
+      const data =  req.body;
       if (data.product_size) {
         data.product_size = {
-          deleteMany: {}, 
           create: data.product_size.map((size) => ({ sizes: size }))
         };
       }
   
       if (data.product_color) {
         data.product_color = {
-          deleteMany: {},
           create: data.product_color.map((color) => ({ colors: color })) 
         };
       }

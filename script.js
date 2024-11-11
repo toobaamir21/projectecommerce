@@ -14,8 +14,8 @@ const cartRoute = require("./routes/cart");
 const verifyJWT = require('./middleware/verifyJWT');
 app.use(express.json());
 app.use("/user",userRoute)
-app.use(verifyJWT)
 app.use("/product",productRoute)
+app.use(verifyJWT)
 app.use("/cart",cartRoute)
 
 app.get("/",(req,res)=>{
