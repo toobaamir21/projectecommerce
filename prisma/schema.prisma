@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  email     String      @unique
+  profile   Profile?
+  secret    UserSecret?
+  session   Session[]
+  review    Review[]
+  cart      Cart[]
+  order     Order[]
+  createdAt DateTime    @default(now())
+}
+
+model Profile {
+  id           String @id @default(uuid())
+  address      String
+  user_profile User   @relation(fields: [userId], references: [id])
+  userId       String @unique
+}
+
+model UserSecret {
+  id          String @id @default(uuid())
+  password    String
+  user_Secret User   @relation(fields: [userId], references: [id])
+  userId      String @unique
+}
+
+model Session {
+  id           String @id @default(uuid())
+  refreshToken String
+  user_session User   @relation(fields: [userId], references: [id])
+  userId       String
+}
+
+model Product {
+  id            String       @id @default(uuid())
+  productName   String
+  description   String
+  price         Int
+  quantity      Int
+  reviews       Review[]
+  product_size  Size[]
+  product_color Color[]
+  orderItems    OrderItems[]
+  cartItems     CartItems[]
+}
+
+model Cart {
+  id        String      @id @default(uuid())
+  user_Cart User        @relation(fields: [userId], references: [id])
+  userId    String      @unique
+  cartItems CartItems[]
+}
+
+model CartItems {
+  id            String    @id @default(uuid())
+  cart_relation Cart      @relation(fields: [cartId], references: [id])
+  cartId        String
+  product_Cart  Product[]
+  quantity      Int
+  createdAt     DateTime  @default(now())
+}
+
+model Review {
+  id             String  @id @default(uuid())
+  comment        String
+  product_review Product @relation(fields: [productId], references: [id])
+  productId      String
+  user_Review    User    @relation(fields: [userId], references: [id])
+  userId         String
+}
+
+model Size {
+  id           String  @id @default(uuid())
+  sizes        String
+  product_size Product @relation(fields: [productId], references: [id])
+  productId    String
+}
+
+model Color {
+  id            String  @id @default(uuid())
+  colors        String
+  product_color Product @relation(fields: [productId], references: [id])
+  productId     String
+}
+
+model Order {
+  id           String       @id @default(uuid())
+  total_amount String
+  status       Status       @default(PENDING)
+  user_order   User         @relation(fields: [userId], references: [id])
+  userId       String
+  orderItems   OrderItems[]
+}
+
+model OrderItems {
+  id            String    @id @default(uuid())
+  quantity      String
+  price         String
+  order_items   Order     @relation(fields: [orderId], references: [id])
+  orderId       String
+  product_items Product[]
+}
+
+model Contact {
+  id          String   @id @default(uuid())
+  name        String
+  address     String
+  phone       String
+  workingTime DateTime
+}
+
+enum Status {
+  PENDING
+  SHIPPED
+  DELIVERED
+}
