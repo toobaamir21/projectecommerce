@@ -21,7 +21,7 @@ model User {
   secret    UserSecret?
   session   Session[]
   review    Review[]
-  cart      Cart[]
+  cart      Cart?
   order     Order[]
   createdAt DateTime    @default(now())
 }
@@ -68,12 +68,13 @@ model Cart {
 }
 
 model CartItems {
-  id            String    @id @default(uuid())
-  cart_relation Cart      @relation(fields: [cartId], references: [id])
+  id            String   @id @default(uuid())
+  cart_relation Cart     @relation(fields: [cartId], references: [id])
   cartId        String
-  product_Cart  Product[]
+  product_cart   Product @relation(fields: [productId], references: [id])
+  productId     String
   quantity      Int
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime @default(now())
 }
 
 model Review {
@@ -83,6 +84,7 @@ model Review {
   productId      String
   user_Review    User    @relation(fields: [userId], references: [id])
   userId         String
+  createdAt      DateTime @default(now())
 }
 
 model Size {
@@ -102,6 +104,10 @@ model Color {
 model Order {
   id           String       @id @default(uuid())
   total_amount String
+  name         String
+  contact      String
+  address      String
+  paymentmode  String
   status       Status       @default(PENDING)
   user_order   User         @relation(fields: [userId], references: [id])
   userId       String
@@ -114,7 +120,9 @@ model OrderItems {
   price         String
   order_items   Order     @relation(fields: [orderId], references: [id])
   orderId       String
-  product_items Product[]
+  product_items Product  @relation(fields: [productId],references: [id])
+  productId     String
+  // delivery_fees  Int
 }
 
 model Contact {

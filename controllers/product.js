@@ -88,10 +88,7 @@ const getProductById = async (req, res) => {
   };
 
   const updateProduct = async (req, res) => {
-    
-  
     const { id } = req.params;
-  
     try {
       const data =  req.body;
       if (data.product_size) {
