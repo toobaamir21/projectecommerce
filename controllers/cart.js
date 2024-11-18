@@ -259,7 +259,7 @@ const updateCartItems = async (req, res) => {
     const foundCartItem = userCart.find(
       (item) => item.productId === productId && item.id === cartItemsId
     );
-    console.log(foundCartItem,".."); 
+ 
     if (foundCartItem) {
       await prisma.$queryRaw`
       update 

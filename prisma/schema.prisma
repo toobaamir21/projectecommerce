@@ -16,7 +16,7 @@ datasource db {
 model User {
   id        String      @id @default(uuid())
   name      String
-  email     String      @unique
+  email     String       @unique
   profile   Profile?
   secret    UserSecret?
   session   Session[]
@@ -69,20 +69,20 @@ model Cart {
 
 model CartItems {
   id            String   @id @default(uuid())
-  cart_relation Cart     @relation(fields: [cartId], references: [id])
+  cart_relation Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId        String
-  product_cart  Product  @relation(fields: [productId], references: [id])
+  product_cart   Product @relation(fields: [productId], references: [id])
   productId     String
   quantity      Int
   createdAt     DateTime @default(now())
 }
 
 model Review {
-  id             String   @id @default(uuid())
+  id             String  @id @default(uuid())
   comment        String
-  product_review Product  @relation(fields: [productId], references: [id])
+  product_review Product @relation(fields: [productId], references: [id])
   productId      String
-  user_Review    User     @relation(fields: [userId], references: [id])
+  user_Review    User    @relation(fields: [userId], references: [id])
   userId         String
   createdAt      DateTime @default(now())
 }
@@ -103,7 +103,7 @@ model Color {
 
 model Order {
   id           String       @id @default(uuid())
-  total_amount Int
+  total_amount  Int
   name         String
   contact      String
   address      String
@@ -115,12 +115,12 @@ model Order {
 }
 
 model OrderItems {
-  id            String  @id @default(uuid())
+  id            String    @id @default(uuid())
   quantity      String
   price         String
-  order_items   Order   @relation(fields: [orderId], references: [id])
+  order_items   Order     @relation(fields: [orderId], references: [id])
   orderId       String
-  product_items Product @relation(fields: [productId], references: [id])
+  product_items Product  @relation(fields: [productId],references: [id])
   productId     String
   // delivery_fees  Int
 }

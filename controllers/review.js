@@ -27,11 +27,13 @@ const createReview = async (req, res) => {
      if (showOrder.length==0) {
       return res.status(404).json({msg:"Not Found"})
      }
-     const matchedProduct = showOrder.find(val=>val.productId===productId&&val.order_item_id===orderItemId&&val.status==="DELIVERED")
+     console.log(showOrder)
+     const matchedProduct = showOrder.find(val=>val.product_id===productId&&val.order_item_id===orderItemId&&val.status==="DELIVERED")
+     
      if (!matchedProduct) {
       return res.status(404).json({msg:"Not Found"})
      }
-     const reviewId = uuidv4()
+     const reviewId = uuidv4() 
      await prisma.$queryRaw`
      insert into review (id,comment,productId,userId) values(${reviewId},${comment},${productId},${userId})
      `

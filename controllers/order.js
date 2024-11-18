@@ -377,7 +377,7 @@ const getOrder = async (req, res) => {
 const updateOrderStatus = async (req, res) => {
   const  orderId  = req.params.id;
   const {userId} = req
-  const { status,productId } = req.body;
+  const { status } = req.body;
 
   try {
     const orders = await prisma.$queryRaw`
@@ -386,6 +386,7 @@ const updateOrderStatus = async (req, res) => {
    if (orders.length==0) {
     return res.status(404).json({ error: "Order not found" });
    }
+   
    const userOrder = orders.find(val=>val.userId===userId)
    if (!userOrder) {
     return res.status(404).json({ error: "Not found" });

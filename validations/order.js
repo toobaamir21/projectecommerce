@@ -27,6 +27,7 @@ const updateOrderStatusSchema = Joi.object({
   
     body: Joi.object({
       status: Joi.string().valid('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED').required(),
+      productId:Joi.string().uuid().required()
     }),
   });
 
