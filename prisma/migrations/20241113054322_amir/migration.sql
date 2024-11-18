@@ -101,12 +101,12 @@ CREATE TABLE `Color` (
 -- CreateTable
 CREATE TABLE `Order` (
     `id` VARCHAR(191) NOT NULL,
-    `total_amount` VARCHAR(191) NOT NULL,
+    `total_amount` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `contact` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
-    `payment_mode` VARCHAR(191) NOT NULL,
-    `status` ENUM('PENDING', 'SHIPPED', 'DELIVERED') NOT NULL DEFAULT 'PENDING',
+    `paymentmode` VARCHAR(191) NOT NULL,
+    `status` ENUM('PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
     `userId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)

@@ -6,10 +6,11 @@ const app = express()
 
 const {createProduct, getProducts, getProductById, updateProduct} = require("../controllers/product")
 const verifyJWT = require('../middleware/verifyJWT')
+const validate = require('../middleware/validate')
+const { createProductSchema, updateProductSchema } = require('../validations/product')
 
 router.get('/get-products',getProducts)
 router.get('/productById/:id',getProductById)
-app.use(verifyJWT)
-router.post('/create-product',createProduct)
-router.put('/updateProduct/:id',updateProduct)
+router.post('/create-product',verifyJWT,validate(createProductSchema), createProduct)
+router.put('/updateProduct/:id',verifyJWT,validate(updateProductSchema),updateProduct)
 module.exports = router
