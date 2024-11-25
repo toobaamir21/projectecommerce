@@ -24,40 +24,40 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (req, r
   
   if (event.type === 'checkout.session.completed') {
     console.log("event");
-    
-    // const session = event.data.object;
-    // const userId = session.metadata.userId;
-    // const items = JSON.parse(session.metadata.items);
-    // const name = session.metadata.name;
-    // const contact = session.metadata.contact;
-    // const address = session.metadata.address;
-    // const paymentmode = session.metadata.paymentmode;
+    const session = event.data.object;
+    console.log(session,"session");
+    const userId = session.metadata.userId;
+    const items = JSON.parse(session.metadata.items);
+    const name = session.metadata.name;
+    const contact = session.metadata.contact;
+    const address = session.metadata.address;
+    const paymentmode = session.metadata.paymentmode;
 
   
-    // const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
     try {
-      // const newOrder = await prisma.order.create({
-      //   data: {
-      //     userId: userId,
-      //     total_amount: totalAmount,
-      //     name: name,
-      //     contact: contact,
-      //     address: address,
-      //     paymentmode: paymentmode,
-      //     status: "PENDING",
-      //     orderItems: {
-      //       create: items.map(item => ({
-      //         productId: item.id,
-      //         quantity: item.quantity,
-      //         price: item.price,
-      //       })),
-      //     },
-      //   },
-      // });
+      const newOrder = await prisma.order.create({
+        data: {
+          userId: userId,
+          total_amount: 8999,
+          name: name,
+          contact: contact,
+          address: address,
+          paymentmode: paymentmode,
+          status: "PENDING",
+          orderItems: {
+            create: items.map(item => ({
+              productId: item.id,
+              quantity: "6",
+              price: "777",
+            })),
+          },
+        },
+      });
 
-      // console.log(`Order created successfully with ID: ${newOrder.id}`);
-      console.log(`Order created successfully with ID`);
+      console.log(`Order created successfully with ID: ${newOrder}`);
+      // console.log(`Order created successfully with ID`);
     } catch (error) {
       console.error("Error creating order:", error);
       return res.sendStatus(500);
