@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "script.ts",
   "scripts": {
-    "devStart": "nodemon script"
+    "dev:start": "nodemon script"
   },
   "author": "",
   "license": "ISC",

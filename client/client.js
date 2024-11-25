@@ -2,7 +2,7 @@ const button = document.querySelector("button");
 button.addEventListener("click", () => {
   console.log("button");
   let token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiN2ZkNzhjZGQtNzk2OC00N2U1LWIyZmEtNDI3YTRkNDIxMDczIiwiaWF0IjoxNzMyNDU3NDM1LCJleHAiOjE3MzI1NDM4MzV9.VvPlW6UlXS4gl8G19qgVGjnXampyRrJC2UQO6zckkQY";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZDdhNjIyOTYtNWVkNi00MDFlLWJhNjUtZmE1YmY5NmY3ZGIwIiwiaWF0IjoxNzMyNTY2ODg3LCJleHAiOjE3MzI2NTMyODd9.h_kP3Br5JV_0rrQodJ0qhzGMPrrUDFF92YVcFh3M8QY";
 
   fetch("http://localhost:3000/checkout/create-checkout-session", {
     method: "POST",
@@ -12,15 +12,15 @@ button.addEventListener("click", () => {
     },
     body: JSON.stringify({
       items: [
-        { id: "64c3b2d0-34a6-4b18-be31-9d8552c4f77d", quantity: 3 },
-        { id: "6537a0a3-0a94-427a-9e82-ab11821808b0", quantity: 1 },
-        {
-          name: "Tooba",
-          address: "North Nazimabad",
-          contact: "7687564353",
-          paymentmode: "card",
-        },
+        { id: "a22626d6-b795-4a65-8ede-180db48f2044", quantity: 3 },
+        { id: "94bd5eb7-a3e9-4cda-b9c8-110cfece79b1", quantity: 1 },
       ],
+
+      name: "Tooba",
+
+      address: "North Nazimabad",
+      contact: "7687564353",
+      paymentmode: "card",
     }),
   })
     .then((res) => {
