@@ -10,10 +10,11 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 const app = express()
 app.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+  console.log("running")
   const sig = req.headers['stripe-signature'];
 
-  // console.log(req)
-  const endpointSecret = "whsec_6f71050149ad0e7127ddf1ba5334a13f3c87b164dcd2daf2b4c7ea4ad2dfca01";  
+
+  const endpointSecret = "whsec_7cc40e66165891dc0e421e9870a7d3a8e78e58487ff81918603bb940a9f871de";  
   let event;
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
@@ -23,6 +24,7 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (req, r
   }
   
   if (event.type === 'checkout.session.completed') {
+    console.log("checkout.session.completed")
     console.log("event");
     const session = event.data.object;
     console.log(session,"session");
@@ -40,7 +42,7 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (req, r
       const newOrder = await prisma.order.create({
         data: {
           userId: userId,
-          total_amount: 8999,
+          total_amount: totalAmount,
           name: name,
           contact: contact,
           address: address,
@@ -48,15 +50,15 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), async (req, r
           status: "PENDING",
           orderItems: {
             create: items.map(item => ({
-              productId: item.id,
-              quantity: "6",
-              price: "777",
+              productId: item.productId,
+              quantity: item.quantity,
+              price: item.price, 
             })),
           },
         },
       });
-
-      console.log(`Order created successfully with ID: ${newOrder}`);
+      
+      console.log(`Order created successfully with ID: ${newOrder.id}`);
       // console.log(`Order created successfully with ID`);
     } catch (error) {
       console.error("Error creating order:", error);
